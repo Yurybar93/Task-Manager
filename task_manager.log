@@ -1,0 +1,8 @@
+2025-04-24 10:00:34,025 - TaskManager - INFO - Executing handle_add_task with args: (Namespace(command='add', title='Позвонить', description='Спросить про документы', storage_type='jsonfile', deadline=None, func=<function handle_add_task at 0x000001F30CF55260>),), kwargs: {}
+2025-04-24 10:00:34,057 - TaskManager - INFO - Completed handle_add_task
+2025-04-24 10:01:20,958 - TaskManager - INFO - Executing handle_add_task with args: (Namespace(command='add', title='Позвонить', description='Спросить про документы', storage_type='sqlite', deadline=None, func=<function handle_add_task at 0x00000134B41198A0>),), kwargs: {}
+2025-04-24 10:01:20,987 - TaskManager - INFO - Completed handle_add_task
+2025-04-24 10:03:02,533 - TaskManager - INFO - Executing handle_list_tasks with args: (Namespace(command='list', storage_type='sqlite', func=<function handle_list_tasks at 0x000002077C9E8D60>),), kwargs: {}
+2025-04-24 10:03:02,533 - TaskManager - INFO - Completed handle_list_tasks
+2025-04-24 10:04:16,320 - TaskManager - INFO - Executing handle_delete_task with args: (Namespace(command='delete', task_id='bba41f98-691b-447e-b588-a31173c34486', storage_type='jsonfile', func=<function handle_delete_task at 0x0000017577ED8C20>),), kwargs: {}
+2025-04-24 10:04:16,336 - TaskManager - INFO - Completed handle_delete_task
