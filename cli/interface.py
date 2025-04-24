@@ -2,6 +2,7 @@ from models.task import Task, TaskStatus
 from factory.storage_factory import StorageFactory
 from datetime import datetime
 from core.logger import Logger
+from iterators.task_iterator import TaskIterator    
 
 logger = Logger()
 log_action = logger.log_action
@@ -34,13 +35,31 @@ def handle_delete_task(args):
 
 @log_action("List tasks")
 def handle_list_tasks(args):
+
     storage = StorageFactory.create_storage(args.storage_type)
     tasks = storage.list_tasks()
-    if tasks:
-        for task in tasks:
-            print(task)
-    else:
+    task_iterator = TaskIterator(tasks)
+
+    if getattr(args, 'status', None):
+        task_iterator = task_iterator.filter_by_status(args.status)
+
+    if getattr(args, 'deadline', None):
+        try:
+            deadline = datetime.strptime(args.deadline, '%Y-%m-%d %H:%M:%S')
+            print(f"Deadline for filtering: {deadline}")
+            task_iterator = task_iterator.filter_by_deadline(deadline)
+        except ValueError:
+            print("Invalid date format. Use YYYY-MM-DD HH:MM:SS")
+            return
+
+    any_tasks = False
+    for task in task_iterator:
+        print(task)
+        any_tasks = True
+
+    if not any_tasks:
         print("No tasks found.")
+
 
 @log_action("Update task")
 def handle_update_task(args):
