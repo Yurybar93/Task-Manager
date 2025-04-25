@@ -1,5 +1,5 @@
 import argparse
-from cli.interface import handle_add_task, handle_get_task, handle_delete_task, handle_list_tasks, handle_update_task
+from cli.interface import handle_add_task, handle_get_task, handle_delete_task, handle_list_tasks, handle_update_task, handle_export_tasks
 from core.config import Config
 
 def main():
@@ -43,6 +43,13 @@ def main():
     update_parser.add_argument('--storage_type', type=str, default=config.storage_type, help='Type of storage (memory, jsonfile, sqlite)')
     update_parser.add_argument('--deadline', type=str, help='New deadline for the task (YYYY-MM-DD HH:MM:SS)')
     update_parser.set_defaults(func=handle_update_task)
+
+    # Export tasks command
+    export_parser = subparsers.add_parser('export', help='Export tasks to a file') 
+    export_parser.add_argument('filename', type=str, help='Name of the file to export to')
+    export_parser.add_argument('format', type=str, choices=['csv', 'json', 'markdown'], help='Format to export to (csv, json, markdown)')   
+    export_parser.add_argument('--storage_type', type=str, default=config.storage_type, help='Type of storage (memory, jsonfile, sqlite)')
+    export_parser.set_defaults(func=handle_export_tasks)
 
 
     args = parser.parse_args()

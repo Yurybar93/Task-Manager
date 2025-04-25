@@ -123,3 +123,16 @@
 2025-04-24 12:44:22,812 - TaskManager - INFO - Completed handle_list_tasks
 2025-04-24 12:44:40,807 - TaskManager - INFO - Executing handle_list_tasks with args: (Namespace(command='list', storage_type='sqlite', status=None, deadline='2021-04-24 23:59:59', func=<function handle_list_tasks at 0x0000021931769120>),), kwargs: {}
 2025-04-24 12:44:40,807 - TaskManager - INFO - Completed handle_list_tasks
+2025-04-25 09:15:08,763 - TaskManager - INFO - Executing handle_add_task with args: (Namespace(command='add', title='тест', description='тест', storage_type='json', deadline=None, func=<function handle_add_task at 0x000002573C0B8A40>),), kwargs: {}
+2025-04-25 09:15:32,579 - TaskManager - INFO - Executing handle_add_task with args: (Namespace(command='add', title='тест', description='тест', storage_type='jsonfile', deadline=None, func=<function handle_add_task at 0x0000024A7DB78A40>),), kwargs: {}
+2025-04-25 09:15:32,610 - TaskManager - INFO - Completed handle_add_task
+2025-04-25 09:15:45,906 - TaskManager - INFO - Executing handle_list_tasks with args: (Namespace(command='list', storage_type='jsonfile', status=None, deadline=None, func=<function handle_list_tasks at 0x0000025D3F8F9120>),), kwargs: {}
+2025-04-25 09:15:45,906 - TaskManager - INFO - Completed handle_list_tasks
+2025-04-25 10:54:45,375 - TaskManager - INFO - Executing handle_export_tasks with args: (Namespace(command='export', filename='tasks.csv', format='csv', storage_type='jsonfile', func=<function handle_export_tasks at 0x000001A149BBA7A0>),), kwargs: {}
+2025-04-25 10:54:45,375 - TaskManager - INFO - Completed handle_export_tasks
+2025-04-25 10:57:49,829 - TaskManager - INFO - Executing handle_export_tasks with args: (Namespace(command='export', filename='task1.json', format='json', storage_type='sqlite', func=<function handle_export_tasks at 0x00000218A95EA700>),), kwargs: {}
+2025-04-25 10:57:49,860 - TaskManager - INFO - Completed handle_export_tasks
+2025-04-25 10:58:33,701 - TaskManager - INFO - Executing handle_export_tasks with args: (Namespace(command='export', filename='task1.md', format='markdown', storage_type='sqlite', func=<function handle_export_tasks at 0x0000018A6F91A700>),), kwargs: {}
+2025-04-25 10:58:33,717 - TaskManager - INFO - Completed handle_export_tasks
+2025-04-25 11:00:43,985 - TaskManager - INFO - Executing handle_export_tasks with args: (Namespace(command='export', filename='task1.md', format='markdown', storage_type='sqlite', func=<function handle_export_tasks at 0x000001D8C8AEA700>),), kwargs: {}
+2025-04-25 11:00:44,017 - TaskManager - INFO - Completed handle_export_tasks
