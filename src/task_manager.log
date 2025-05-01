@@ -1,0 +1,4 @@
+2025-04-27 18:49:36,734 - TaskManager - INFO - Executing handle_list_tasks with args: (Namespace(command='list', storage_type='memory', status=None, deadline=None, func=<function handle_list_tasks at 0x000001CF25EEA660>),), kwargs: {}
+2025-04-27 18:49:36,735 - TaskManager - INFO - Completed handle_list_tasks
+2025-04-27 18:50:22,664 - TaskManager - INFO - Executing handle_list_tasks with args: (Namespace(command='list', storage_type='jsonfile', status=None, deadline=None, func=<function handle_list_tasks at 0x0000019AB0B8A660>),), kwargs: {}
+2025-04-27 18:50:22,681 - TaskManager - INFO - Completed handle_list_tasks
