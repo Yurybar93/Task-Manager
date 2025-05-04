@@ -5,7 +5,9 @@ import logging
 from io import StringIO
 
 class TestLogger(unittest.TestCase):
+    """Unit tests for the Logger class."""
     def setUp(self):
+        """Set up the test environment."""
         self.log_output = StringIO()
         self.logger = Logger().get_logger()
         self.logger.handlers = [] 
@@ -18,11 +20,13 @@ class TestLogger(unittest.TestCase):
         self.logger.setLevel(logging.INFO)
 
     def test_singleton(self):
+        """Test that the Logger class is a singleton."""
         logger1 = Logger()
         logger2 = Logger()
         self.assertIs(logger1, logger2)
 
     def test_log_action_decorator(self):
+        """Test the log_action decorator."""
         @Logger.log_action()
         def sample_function(x, y):
             return x + y
@@ -35,6 +39,7 @@ class TestLogger(unittest.TestCase):
         self.assertIn("args=(1, 2)", log_contents)
 
     def test_log_action_decorator_exception(self):
+        """Test the log_action decorator with an exception."""
         @Logger.log_action("failing function")
         def sample_function(x, y):
             raise ValueError("An error occurred")

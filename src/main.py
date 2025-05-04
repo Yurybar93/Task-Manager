@@ -3,6 +3,22 @@ from cli.interface import handle_add_task, handle_get_task, handle_delete_task, 
 from core.config import Config
 
 def main():
+    """
+    Main function to parse command line arguments and execute the corresponding task management command.
+    It uses argparse to handle command line arguments and subcommands for adding, retrieving, deleting,
+    listing, updating, and exporting tasks.
+    
+    Commands:
+    - add: Add a new task
+    - get: Retrieve a task by ID
+    - delete: Delete a task by ID
+    - list: List all tasks
+    - update: Update a task by ID
+    - export: Export tasks to a file
+
+    Notes:
+    - The `--storage_type` argument specifies the type of storage to use (memory, jsonfile, sqlite).
+    """
     config = Config()
     parser = argparse.ArgumentParser(description="Task Management CLI")
     subparsers = parser.add_subparsers(dest='command', required=True)

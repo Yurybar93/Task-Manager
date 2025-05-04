@@ -1,4 +1,6 @@
 from export import csv_exporter, markdown_exporter, json_exporter
+from typing import List
+from models.task import Task
 
 exporters = {
     'csv': csv_exporter.export_tasks_to_csv,
@@ -6,13 +8,23 @@ exporters = {
     'markdown': markdown_exporter.export_tasks_to_markdown,
 }
 
-def export_tasks(tasks, filename, format):
+def export_tasks(tasks: List[Task], filename: str, format: str) -> str:
     """Export tasks to a file in the specified format.
 
-    Args:
-        tasks (list): List of Task objects to export.
-        filename (str): The name of the file to write to.
-        format (str): The format to export to ('csv', 'json', 'markdown').
+    Parameters:
+    ----------  
+    tasks : list
+        A list of Task objects to be exported.
+    filename : str
+        
+    Returns:
+    --------
+        The name of the file to which the tasks were exported.
+
+    Raises:
+    --------
+        ValueError: If the format is not supported.
+
     """
 
 

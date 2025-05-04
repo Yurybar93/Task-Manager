@@ -6,9 +6,19 @@ from models.task import Task, TaskStatus
 from datetime import datetime, timedelta
 
 class TestCLIInterface(unittest.TestCase):
+    """
+    Test cases for the CLI interface functions.
+    These tests cover the functionality of adding, retrieving,
+    deleting, listing, updating, and exporting tasks.
+    """
     @patch('cli.interface.StorageFactory.create_storage')
     @patch('cli.interface.Task')
     def test_handle_add_task(self, mosk_task_cls, mock_create_storage):
+        """
+        Test adding a task using the CLI interface.
+        This test checks if the task is created with the correct parameters
+        and if the storage's add_task method is called.
+        """
         mock_storage = MagicMock()
         mock_create_storage.return_value = mock_storage
 
@@ -31,6 +41,10 @@ class TestCLIInterface(unittest.TestCase):
     @patch('cli.interface.StorageFactory.create_storage')
     @patch('cli.interface.print')
     def test_handle_get_task_found(self, mock_print, mock_create_storage):
+        """
+        Test retrieving a task by ID using the CLI interface.
+        This test checks if the correct task is retrieved and if the storage's get_task method is called.
+        """
         mock_storage = MagicMock()
         mock_create_storage.return_value = mock_storage
 
@@ -50,6 +64,10 @@ class TestCLIInterface(unittest.TestCase):
     @patch('cli.interface.StorageFactory.create_storage')
     @patch('cli.interface.print')
     def test_handle_get_task_not_found(self, mock_print, mock_create_storage):
+        """
+        Test retrieving a task by ID when the task is not found.
+        This test checks if the correct message is printed when the task is not found.
+        """
         mock_storage = MagicMock()
         mock_create_storage.return_value = mock_storage
 
@@ -68,6 +86,10 @@ class TestCLIInterface(unittest.TestCase):
     @patch('cli.interface.StorageFactory.create_storage')
     @patch('cli.interface.print')
     def test_handle_delete_task(self, mock_print, mock_create_storage):
+        """
+        Test deleting a task by ID using the CLI interface.
+        This test checks if the task is deleted and if the storage's delete_task method is called.
+        """
         mock_storage = MagicMock()
         mock_storage.delete_task.return_value = True
         mock_create_storage.return_value = mock_storage
@@ -86,6 +108,10 @@ class TestCLIInterface(unittest.TestCase):
     @patch('cli.interface.TaskIterator')
     @patch('cli.interface.print')
     def test_handle_list_tasks_without_filter(self, mock_print, mock_task_iterator_cls, mock_create_storage):
+        """
+        Test listing tasks without any filters using the CLI interface.
+        This test checks if all tasks are listed and if the storage's list_tasks method is called.
+        """
         mock_storage = MagicMock()
         mock_create_storage.return_value = mock_storage
 
@@ -118,6 +144,10 @@ class TestCLIInterface(unittest.TestCase):
     @patch('cli.interface.TaskIterator')
     @patch('cli.interface.print')
     def test_handle_list_tasks_invalid_deadline(self, mock_print, mock_task_iterator_cls, mock_create_storage):
+        """
+        Test listing tasks with an invalid deadline format.
+        This test checks if the correct error message is printed when the deadline format is invalid.
+        """
         mock_storage = MagicMock()
         mock_create_storage.return_value = mock_storage
         mock_storage.list_tasks.return_value = []
@@ -139,6 +169,10 @@ class TestCLIInterface(unittest.TestCase):
     @patch('cli.interface.StorageFactory.create_storage')
     @patch('cli.interface.print')
     def test_handle_update_task_success(self, mock_print, mock_create_storage):
+        """
+        Test updating a task by ID using the CLI interface.
+        This test checks if the task is updated and if the storage's update_task method is called.
+        """
         mock_storage = MagicMock()
         mock_create_storage.return_value = mock_storage
 
@@ -167,6 +201,10 @@ class TestCLIInterface(unittest.TestCase):
     @patch('cli.interface.print')
     @patch('cli.interface.export_tasks')
     def test_handle_export_tasks_success(self, mock_export_tasks, mock_print, mock_create_storage):
+        """
+        Test exporting tasks to a file using the CLI interface.
+        This test checks if the tasks are exported correctly and if the storage's list_tasks method is called.
+        """
         mock_storage = MagicMock()
         mock_create_storage.return_value = mock_storage
 
@@ -206,6 +244,10 @@ class TestCLIInterface(unittest.TestCase):
     @patch('cli.interface.print')
     @patch('cli.interface.logger')
     def test_handle_export_tasks_invalid_format(self, mock_logger, mock_print, mock_create_storage):
+        """
+        Test exporting tasks with an unsupported format.
+        This test checks if the correct error message is printed when the format is unsupported.
+        """
         mock_storage = MagicMock()
         mock_storage.list_tasks.return_value = []
         mock_create_storage.return_value = mock_storage

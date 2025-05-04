@@ -3,6 +3,11 @@ from typing import List
 from models.task import Task
 
 class BaseStorage(ABC):
+    """
+    Abstract base class for task storage systems.
+    This class defines the interface for adding, retrieving, deleting,
+    listing, and updating tasks in a storage system.
+    """
     @abstractmethod
     def add_task(self, task: Task):
         pass

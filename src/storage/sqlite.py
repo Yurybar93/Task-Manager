@@ -7,13 +7,26 @@ from uuid import UUID
 
 
 class SQLiteStorage(BaseStorage):
+    """
+    A class to manage task storage in a SQLite database.
+    This class implements the BaseStorage interface and provides methods
+    to add, retrieve, delete, list, and update tasks in a SQLite database.
+    """
     def __init__(self, db_name: str = 'tasks.db'):
+        """
+        Initialize the SQLiteStorage with a database name.
+        If the database does not exist, it will be created.
+        """
         self.connection = sqlite3.connect(db_name)
         self.db_name = db_name
         self.cursor = self.connection.cursor()
         self.create_table()
 
     def create_table(self):
+        """
+        Create the tasks table if it does not exist.
+        This method defines the schema for the tasks table.
+        """
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS tasks (
                 id TEXT PRIMARY KEY,
@@ -28,6 +41,10 @@ class SQLiteStorage(BaseStorage):
         self.connection.commit()
 
     def add_task(self, task: Task) -> None:
+        """
+        Add a new task to the storage.
+        This method inserts the task into the database.
+        """
         self.cursor.execute('''
             INSERT INTO tasks (id, title, description, status, created_at, updated_at, deadline)
             VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -36,6 +53,10 @@ class SQLiteStorage(BaseStorage):
         self.connection.commit()
 
     def get_task(self, task_id: str) -> Optional[Task]:
+        """
+        Retrieve a task by its ID.
+        If the task is found, return it; otherwise, return None.
+        """
         self.cursor.execute('SELECT * FROM tasks WHERE id = ?', (task_id,))
         row = self.cursor.fetchone()
         if row:
@@ -51,11 +72,19 @@ class SQLiteStorage(BaseStorage):
         return None
     
     def delete_task(self, task_id: str) -> bool:
+        """
+        Delete a task by its ID.
+        If the task is found and deleted, return True; otherwise, return False.
+        """
         self.cursor.execute('DELETE FROM tasks WHERE id = ?', (task_id,))
         self.connection.commit()
         return self.cursor.rowcount > 0
     
     def update_task(self, task: Task) -> bool:
+        """
+        Update an existing task in the storage.
+        If the task is found and updated, return True; otherwise, return False.
+        """
         self.cursor.execute('''
             UPDATE tasks SET title = ?, description = ?, status = ?, updated_at = ?, deadline = ? WHERE id = ?
         ''', (task.title, task.description, task.status.value, task.updated_at.isoformat(), task.deadline, str(task.id)))
@@ -63,6 +92,10 @@ class SQLiteStorage(BaseStorage):
         return self.cursor.rowcount > 0
     
     def list_tasks(self) -> List[Task]:
+        """
+        List all tasks in the storage.
+        This method retrieves all tasks from the database and returns them as a list of Task objects.
+        """
         self.cursor.execute('SELECT * FROM tasks')
         rows = self.cursor.fetchall()
         return [Task.from_db(row) for row in rows]
