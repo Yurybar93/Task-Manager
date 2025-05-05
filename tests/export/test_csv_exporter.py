@@ -6,7 +6,13 @@ from models.task import Task, TaskStatus
 from export.csv_exporter import export_tasks_to_csv
 
 class TestCSVExporter(unittest.TestCase):
+    """
+    Test case for exporting tasks to a CSV file.
+    """
     def setUp(self):
+        """
+        Set up the test case with sample tasks and a temporary CSV file.
+        """
         self.tasks = [
             Task(
                 title="Test Task 1",
@@ -24,10 +30,16 @@ class TestCSVExporter(unittest.TestCase):
         self.filename = "test_tasks.csv"
 
     def tearDown(self):
+        """
+        Clean up the temporary CSV file after tests.
+        """
         if os.path.exists(self.filename):
             os.remove(self.filename)
 
     def test_export_tasks_to_csv(self):
+        """
+        Test exporting tasks to a CSV file.
+        """
         export_tasks_to_csv(self.tasks, self.filename)
 
         self.assertTrue(os.path.exists(self.filename))

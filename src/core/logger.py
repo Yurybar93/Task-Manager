@@ -2,6 +2,9 @@ import logging
 from functools import wraps
 
 class Logger:
+    """
+    Singleton Logger class for logging actions in the application.
+    """
     __instance = None
 
     def __new__(cls, *args, **kwargs):
@@ -22,10 +25,26 @@ class Logger:
         return cls.__instance
     
     def get_logger(self):
+        """
+        Returns the logger instance.
+        """
         return self.logger
     
     @staticmethod
     def log_action(description=None):
+        """
+        Decorator to log the execution of a function.
+
+        Parameters:
+        ----------
+        description : str, optional
+            Description of the action being logged. If not provided, the function name will be used.
+
+        Returns:
+        --------
+        function
+            Decorated function with logging functionality.
+        """
         def decorator(func):
             @wraps(func)
             def wrapper(*args, **kwargs):

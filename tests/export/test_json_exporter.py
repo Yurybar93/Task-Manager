@@ -6,7 +6,13 @@ from models.task import Task, TaskStatus
 from export.json_exporter import export_tasks_to_json
 
 class TestJSONExporter(unittest.TestCase):
+    """
+    Test case for exporting tasks to a JSON file.
+    """
     def setUp(self):
+        """
+        Set up the test case with sample tasks and a temporary JSON file.
+        """
         self.tasks = [
             Task(
                 title="Test Task 1",
@@ -24,10 +30,16 @@ class TestJSONExporter(unittest.TestCase):
         self.filename = "test_tasks.json"
 
     def tearDown(self):
+        """
+        Clean up the temporary JSON file after tests.
+        """
         if os.path.exists(self.filename):
             os.remove(self.filename)
 
     def test_export_tasks_to_json(self):
+        """
+        Test exporting tasks to a JSON file.
+        """
         export_tasks_to_json(self.tasks, self.filename)
 
         self.assertTrue(os.path.exists(self.filename))

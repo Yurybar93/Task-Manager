@@ -4,7 +4,13 @@ from uuid import uuid4, UUID
 from models.task import Task, TaskStatus
 
 class TestTask(unittest.TestCase):
+    """
+    Test case for the Task class.
+    """
     def setUp(self):
+        """
+        Set up the test case with a sample task.
+        """
         self.task = Task(
             title="Test Task",
             description="This is a test task.",
@@ -13,6 +19,9 @@ class TestTask(unittest.TestCase):
         )
 
     def test_initialization(self):
+        """
+        Test the initialization of the Task object.
+        """
         self.assertIsInstance(self.task.id, UUID)
         self.assertEqual(self.task.title, "Test Task")
         self.assertEqual(self.task.description, "This is a test task.")
@@ -21,10 +30,16 @@ class TestTask(unittest.TestCase):
         self.assertIsInstance(self.task.updated_at, datetime)
 
     def test_repr(self):
+        """
+        Test the string representation of the Task object.
+        """
         expected_repr = f"Task(id={self.task.id}, title={self.task.title}, status={self.task.status}, created_at={self.task.created_at}, updated_at={self.task.updated_at})"
         self.assertEqual(repr(self.task), expected_repr)
 
     def test_str(self):
+        """
+        Test the string representation of the Task object.
+        """
         deadline_str = self.task.deadline.strftime('%Y-%m-%d %H:%M:%S') if self.task.deadline else "No deadline"
         expected_str = (
             f"Task: {self.task.title}, Description: {self.task.description}, Status: ⏳ Pending, "
@@ -35,23 +50,35 @@ class TestTask(unittest.TestCase):
         self.assertEqual(str(self.task), expected_str)
 
     def test_mark_as_done(self):
+        """
+        Test marking the task as done.
+        """
         self.task.mark_as_done()
         self.assertEqual(self.task.status, TaskStatus.COMPLETED)
         self.assertTrue((datetime.now() - self.task.updated_at).total_seconds() < 1)
 
     def test_update_description(self):
+        """
+        Test updating the task description.
+        """
         new_description = "Updated description."
         self.task.update_description(new_description)
         self.assertEqual(self.task.description, new_description)
         self.assertTrue((datetime.now() - self.task.updated_at).total_seconds() < 1)
 
     def test_is_overdue(self):
+        """
+        Test checking if the task is overdue.
+        """
         self.task.deadline = datetime.now() - timedelta(days=1)
         self.assertTrue(self.task.is_overdue())
         self.task.status = TaskStatus.COMPLETED
         self.assertFalse(self.task.is_overdue())
 
     def test_to_dict(self):
+        """
+        Test converting the task to a dictionary.
+        """
         task_dict = self.task.to_dict()
         self.assertEqual(task_dict["id"], str(self.task.id))
         self.assertEqual(task_dict["title"], self.task.title)
@@ -62,6 +89,9 @@ class TestTask(unittest.TestCase):
         self.assertEqual(task_dict["deadline"], self.task.deadline.isoformat())
 
     def test_from_dict(self):
+        """
+        Test creating a task from a dictionary.
+        """
         data = self.task.to_dict()
         new_task = Task.from_dict(data)
         self.assertIsInstance(new_task.id, UUID)
@@ -73,6 +103,9 @@ class TestTask(unittest.TestCase):
         self.assertEqual(new_task.deadline.isoformat(), data["deadline"]) 
 
     def test_from_db(self):
+        """
+        Test creating a task from a database row.
+        """
         row = (
             str(self.task.id),
             self.task.title,
