@@ -64,15 +64,4 @@ class SQLiteStorage(BaseStorage):
     def list_tasks(self) -> List[Task]:
         self.cursor.execute('SELECT * FROM tasks')
         rows = self.cursor.fetchall()
-        # return [
-        #     Task(
-        #         id=UUID(row[0]),
-        #         title=row[1],
-        #         description=row[2],
-        #         status=TaskStatus[row[3].upper()],
-        #         created_at=datetime.fromisoformat(row[4]),
-        #         updated_at=datetime.fromisoformat(row[5]),
-        #         deadline=datetime.fromisoformat(row[6]) if row[6] else None,
-        #     ) for row in rows
-        # ]
         return [Task.from_db(row) for row in rows]

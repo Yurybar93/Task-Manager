@@ -30,6 +30,8 @@ def main():
     # List tasks command
     list_parser = subparsers.add_parser('list', help='List all tasks')
     list_parser.add_argument('--storage_type', type=str, default=config.storage_type, help='Type of storage (memory, jsonfile, sqlite)')
+    list_parser.add_argument('--status', type=str, choices=['pending', 'completed'], help='Filter tasks by status')
+    list_parser.add_argument('--deadline', type=str, help='Filter tasks by deadline (YYYY-MM-DD HH:MM:SS)')
     list_parser.set_defaults(func=handle_list_tasks)
 
     # Update task command
