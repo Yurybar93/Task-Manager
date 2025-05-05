@@ -17,11 +17,11 @@ class TaskCreate(BaseModel):
     storage_type: Optional[str] = config.storage_type
 
 class TaskUpdate(BaseModel):
-    title: str
-    description: str
-    deadline: Optional[str] = None
-    storage_type: Optional[str] = None
-    status: Optional[TaskStatus] = None
+    title: Optional[str]
+    description: Optional[str]
+    deadline: Optional[str] 
+    storage_type: Optional[str] 
+    status: Optional[str] 
 
 @app.post("/tasks/add", status_code=201)
 def add_task(task: TaskCreate):
