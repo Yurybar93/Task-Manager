@@ -2,7 +2,8 @@ from models.task import Task, TaskStatus
 from factory.storage_factory import StorageFactory
 from datetime import datetime
 from core.logger import Logger
-from iterators.task_iterator import TaskIterator    
+from iterators.task_iterator import TaskIterator 
+from export.export import export_tasks   
 
 logger = Logger()
 log_action = logger.log_action
@@ -79,3 +80,15 @@ def handle_update_task(args):
         print(f"Task with ID {args.task_id} updated.")
     else:
         print(f"Task with ID {args.task_id} not found.")
+
+@log_action("Export tasks")
+def handle_export_tasks(args):
+    try:
+        storage = StorageFactory.create_storage(args.storage_type)
+        tasks = storage.list_tasks()
+        export_tasks(tasks, args.filename, args.format)
+        print(f"Tasks exported to {args.filename} in {args.format} format.")
+    except Exception as e:
+        print(f"Error exporting tasks: {e}")
+        logger.log_error(f"Error exporting tasks: {e}")
+        raise e
