@@ -127,7 +127,10 @@ class TestAPI(unittest.TestCase):
         self.assertGreater(len(response.json()), 0)
 
     def tearDown(self):
-        return super().tearDown()
+        response = self.client.get("/tasks")
+        tasks = response.json()
+        for task in tasks:
+            self.client.delete(f"/tasks/{task['id']}")
 
 if __name__ == "__main__":
     unittest.main()
