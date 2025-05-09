@@ -108,6 +108,8 @@ class TestAPI(unittest.TestCase):
         
         # Now, update the task by its ID
         response = self.client.put(f"/tasks/update/{task_id}", json={"title": "Updated Task", "description": "This is an updated test task."})
+        print(response.status_code)
+        print(response.json())
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()["title"], "Updated Task")
 

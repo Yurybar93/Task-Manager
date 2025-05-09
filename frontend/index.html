@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task Manager</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        section { margin-bottom: 30px; }
+        label { display: block; margin-top: 10px; }
+        input, select, button { margin-top: 5px; padding: 5px; }
+        nav button { margin-right: 10px; padding: 8px; }
+        ul { list-style: none; padding: 0; }
+        li { margin-bottom: 10px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+
+    <h1>Task Manager</h1>
+
+    <nav>
+        <button onclick="showSection('list-tasks-section')">📋 View Tasks</button>
+        <button onclick="showSection('add-task-section')">➕ Add Task</button>
+        <button onclick="showSection('update-task-section')">✏️ Update Task</button>
+    </nav>
+
+    <!-- View Tasks Section -->
+    <section id="list-tasks-section">
+        <h2>📋 Task List</h2>
+
+        <label>
+            🔍 Search by text:
+            <input type="text" id="filter" placeholder="Search title or description">
+        </label>
+
+        <label>
+            ✅ Filter by status:
+            <select id="filter-status">
+                <option value="">-- Any --</option>
+                <option value="Pending">Pending</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+            </select>
+        </label>
+
+        <label>
+            📅 Filter by deadline:
+            <input type="date" id="filter-deadline">
+        </label>
+
+        <label>
+            🗃️ Filter by storage type:
+            <select id="filter-storage-type">
+                <option value="">-- Any --</option>
+                <option value="memory">Memory</option>
+                <option value="sqlite">SQLite</option>
+                <option value="jsonfile">JSON File</option>
+            </select>
+        </label>
+
+        <div>
+            <label>
+                🔎 Find task by ID:
+                <input type="text" id="find-task-id" placeholder="Enter task ID">
+            </label>
+            <label>
+                Storage type:
+                <select id="find-storage-type">
+                    <option value="memory">Memory</option>
+                    <option value="sqlite">SQLite</option>
+                    <option value="jsonfile">JSON File</option>
+                </select>
+            </label>
+            <button id="find-task-button">Find</button>
+        </div>
+
+        <div>
+            <label>
+                🗑️ Delete task by ID:
+                <input type="text" id="delete-task-id" placeholder="Enter task ID">
+            </label>
+            <label>
+                Storage type:
+                <select id="delete-storage-type">
+                    <option value="memory">Memory</option>
+                    <option value="sqlite">SQLite</option>
+                    <option value="jsonfile">JSON File</option>
+                </select>
+            </label>
+            <button id="delete-task-button">Delete</button>
+        </div>
+
+        <ul id="task-list"></ul>
+    </section>
+
+    <!-- Add Task Section -->
+    <section id="add-task-section" style="display: none;">
+        <h2>➕ Add New Task</h2>
+        <form id="add-task-form">
+            <label>
+                Title:
+                <input type="text" id="task-title" required>
+            </label>
+            <label>
+                Description:
+                <input type="text" id="task-description">
+            </label>
+            <label>
+                Deadline:
+                <input type="date" id="task-deadline">
+            </label>
+            <label>
+                Storage type:
+                <select id="storage-type" required>
+                    <option value="memory">Memory</option>
+                    <option value="sqlite">SQLite</option>
+                    <option value="jsonfile">JSON File</option>
+                </select>
+            </label>
+            <button type="submit">Add Task</button>
+        </form>
+    </section>
+
+    <!-- Update Task Section -->
+    <section id="update-task-section" style="display: none;">
+        <h2>✏️ Update Task</h2>
+        <form id="update-task-form">
+            <label>
+                Task ID:
+                <input type="text" id="update-task-id" required>
+            </label>
+            <label>
+                New title:
+                <input type="text" id="update-title">
+            </label>
+            <label>
+                New description:
+                <input type="text" id="update-description">
+            </label>
+            <label>
+                New deadline:
+                <input type="date" id="update-deadline">
+            </label>
+            <label>
+                New status:
+                <select id="update-status">
+                    <option value="Pending">Pending</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                </select>
+            </label>
+            <label>
+                Storage type:
+                <select id="update-storage-type" required>
+                    <option value="memory">Memory</option>
+                    <option value="sqlite">SQLite</option>
+                    <option value="jsonfile">JSON File</option>
+                </select>
+            </label>
+            <button type="submit">Update Task</button>
+        </form>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>

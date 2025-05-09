@@ -1,14 +1,22 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import Optional
 from argparse import Namespace
 from cli.interface import handle_add_task, handle_get_task, handle_delete_task, handle_list_tasks, handle_update_task, handle_export_tasks
 from core.config import Config
 import uvicorn
-from models.task import TaskStatus 
 
 config = Config()
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class TaskCreate(BaseModel):
     title: str
