@@ -160,63 +160,66 @@ Click "Export" to download the file.
 
 
 
+# Task Manager Project Structure
 
-Project Structure
+```
 task-manager/
-├── config/                    # Configuration files
-│   ├── .env                   # Environment variables
-│   └── task_manager.log       # Log file
-├── frontend/                  # Frontend files
-│   ├── index.html             # Main HTML file
-│   └── script.js              # JavaScript logic for frontend
-├── src/                       # Backend source code
-│   ├── sli/                   # System-level interface
-│   │   └── interface.py       # Interface definitions
-│   ├── core/                  # Core utilities
-│   │   ├── config.py          # Configuration management
-│   │   └── logger.py          # Logging setup
-│   ├── export/                # Export functionality
-│   │   ├── exporter.py        # Base exporter
-│   │   ├── csv_exporter.py    # CSV export logic
-│   │   ├── json_exporter.py   # JSON export logic
-│   │   └── markdown_exporter.py # Markdown export logic
-│   ├── factory/               # Factory for storage
-│   │   └── storage_factory.py # Storage factory implementation
-│   ├── iterators/             # Iterator for tasks
-│   │   └── task_iterator.py   # Task iterator implementation
-│   ├── models/                # Data models
-│   │   └── task.py            # Task model definition
-│   ├── storage/               # Storage implementations
-│   │   ├── base.py            # Base storage class
-│   │   ├── jsonfile.py        # JSON file storage
-│   │   ├── memory.py          # In-memory storage
-│   │   └── sqlite.py          # SQLite storage
-├── tests/                     # Unit tests
-│   ├── sli/                   # Tests for system-level interface
+├── frontend/                      # Frontend files
+│   ├── index.html                 # Main HTML file
+│   └── script.js                  # JavaScript logic for frontend
+├── src/                           # Backend source code
+│   ├── sli/                       # System-level interface
+│   │   └── interface.py           # Interface definitions
+│   ├── core/                      # Core utilities
+│   │   ├── config.py              # Configuration management
+│   │   ├── logger.py              # Logging setup
+│   │   └── config/                # Configuration files
+│   │       ├── .env               # Environment variables
+│   │       └── task_manager.log   # Log file
+│   ├── export/                    # Export functionality
+│   │   ├── exporter.py            # Base exporter
+│   │   ├── csv_exporter.py        # CSV export logic
+│   │   ├── json_exporter.py       # JSON export logic
+│   │   └── markdown_exporter.py   # Markdown export logic
+│   ├── factory/                   # Factory for storage
+│   │   └── storage_factory.py     # Storage factory implementation
+│   ├── iterators/                 # Iterator for tasks
+│   │   └── task_iterator.py       # Task iterator implementation
+│   ├── models/                    # Data models
+│   │   └── task.py                # Task model definition
+│   ├── storage/                   # Storage implementations
+│   │   ├── base.py                # Base storage class
+│   │   ├── jsonfile.py            # JSON file storage
+│   │   ├── memory.py              # In-memory storage
+│   │   └── sqlite.py              # SQLite storage
+├── tests/                         # Unit tests
+│   ├── sli/                       # Tests for system-level interface
 │   │   └── test_interface.py
-│   ├── core/                  # Tests for core utilities
+│   ├── core/                      # Tests for core utilities
 │   │   ├── test_config.py
 │   │   └── test_logger.py
-│   ├── export/                # Tests for export functionality
+│   ├── export/                    # Tests for export functionality
 │   │   ├── test_exporter.py
 │   │   ├── test_csv_exporter.py
 │   │   ├── test_json_exporter.py
 │   │   └── test_markdown_exporter.py
-│   ├── factory/               # Tests for storage factory
+│   ├── factory/                   # Tests for storage factory
 │   │   └── test_storage_factory.py
-│   ├── iterators/             # Tests for iterators
+│   ├── iterators/                 # Tests for iterators
 │   │   └── test_task_iterator.py
-│   ├── models/                # Tests for models
+│   ├── models/                    # Tests for models
 │   │   └── test_task.py
-│   ├── storage/               # Tests for storage implementations
+│   ├── storage/                   # Tests for storage implementations
 │   │   ├── test_base.py
 │   │   ├── test_jsonfile.py
 │   │   ├── test_memory.py
 │   │   └── test_sqlite.py
-│   └── test_api.py            # Tests for API endpoints
-├── main.py                    # CLI entry point (not tested)
-├── api.py                     # API entry point (FastAPI backend)
-└── README.md                  # Project documentation
+│   └── test_api.py                # Tests for API endpoints
+├── main.py                        # CLI entry point (not tested)
+├── api.py                         # API entry point (FastAPI backend)
+└── README.md                      # Project documentation
+```
+
 
 
 Running Tests
