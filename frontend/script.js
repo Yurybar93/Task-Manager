@@ -5,7 +5,6 @@ const taskDescriptionInput = document.getElementById('task-description');
 const taskDeadlineInput = document.getElementById('task-deadline');
 const addStorageTypeInput = document.getElementById('storage-type');
 
-const filterInput = document.getElementById('filter');
 const filterStatusInput = document.getElementById('filter-status');
 const filterDeadlineInput = document.getElementById('filter-deadline');
 const filterStorageTypeInput = document.getElementById('filter-storage-type');
@@ -26,11 +25,17 @@ const updateDeadlineInput = document.getElementById('update-deadline');
 const updateStatusInput = document.getElementById('update-status');
 const updateStorageTypeInput = document.getElementById('update-storage-type');
 
+const exportTaskForm = document.getElementById('export-task-form');
+const exportFilenameInput = document.getElementById('export-filename');
+const exportFormatInput = document.getElementById('export-format');
+const exportStorageTypeInput = document.getElementById('export-storage-type');
+
 let tasks = [];
 
 // Function to render tasks
 function renderTasks(taskArray) {
     taskListUl.innerHTML = '';
+    console.log('Rendering tasks:', taskArray); // Debug log
     if (taskArray.length === 0) {
         taskListUl.innerHTML = '<li>No tasks found.</li>';
         return;
@@ -40,7 +45,7 @@ function renderTasks(taskArray) {
         const li = document.createElement('li');
         li.innerHTML = `
             <strong>${task.title}</strong> - ${task.description || 'No description'}<br>
-            Status: ${task.status} | Deadline: ${task.deadline || 'No deadline'} | Storage: ${task.storage_type} | ID: ${task.id}
+            Status: ${task.status} | Deadline: ${task.deadline || 'No deadline'} | Storage: ${filterStorageTypeInput.value || 'undefined'} | ID: ${task.id}
         `;
         taskListUl.appendChild(li);
     });
@@ -50,54 +55,71 @@ function renderTasks(taskArray) {
 function applyFilters() {
     let filteredTasks = tasks;
 
-    const filterText = filterInput.value.toLowerCase();
-    if (filterText) {
-        filteredTasks = filteredTasks.filter(task =>
-            task.title.toLowerCase().includes(filterText) ||
-            (task.description && task.description.toLowerCase().includes(filterText))
-        );
-    }
+    // Log filter values for debugging
+    console.log('Filter values:', {
+        status: filterStatusInput.value,
+        deadline: filterDeadlineInput.value,
+        storageType: filterStorageTypeInput.value
+    });
 
     const status = filterStatusInput.value;
     if (status) {
-        filteredTasks = filteredTasks.filter(task => task.status === status);
+        filteredTasks = filteredTasks.filter(task => 
+            task.status && task.status.toLowerCase() === status.toLowerCase()
+        );
     }
 
     const deadline = filterDeadlineInput.value;
     if (deadline) {
         filteredTasks = filteredTasks.filter(task => {
             if (!task.deadline) return false;
-            // Extract only the date part (YYYY-MM-DD) for filtering
-            const taskDeadline = task.deadline.split(' ')[0];
+            const taskDeadline = task.deadline.split('T')[0];
             return taskDeadline === deadline;
         });
     }
 
-    const storageType = filterStorageTypeInput.value;
-    if (storageType) {
-        filteredTasks = filteredTasks.filter(task => task.storage_type === storageType);
-    }
-
+    console.log('Filtered tasks:', filteredTasks);
     renderTasks(filteredTasks);
 }
 
 // Event listeners for filters
-filterInput.addEventListener('input', applyFilters);
 filterStatusInput.addEventListener('change', applyFilters);
 filterDeadlineInput.addEventListener('change', applyFilters);
-filterStorageTypeInput.addEventListener('change', applyFilters);
+filterStorageTypeInput.addEventListener('change', () => {
+    console.log('Storage type filter changed to:', filterStorageTypeInput.value);
+    fetchAndRenderTasks();
+});
 
 // Function to fetch tasks from the server
 async function fetchAndRenderTasks() {
     try {
-        const response = await fetch('http://localhost:8000/tasks');
-        if (!response.ok) throw new Error('Failed to load tasks');
-        tasks = await response.json();
+        const storageType = filterStorageTypeInput.value;
+        const url = storageType
+            ? `http://localhost:8000/tasks?storage_type=${storageType}`
+            : 'http://localhost:8000/tasks';
+        
+        console.log('Fetching tasks from:', url);
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(`Failed to load tasks: ${JSON.stringify(errorData)} (Status: ${response.status})`);
+        }
+
+        const data = await response.json();
+        tasks = Array.isArray(data) ? data : [];
+        console.log('Raw tasks data:', data);
         console.log('Tasks loaded:', tasks);
         applyFilters();
     } catch (error) {
         console.error('Error loading tasks:', error.message, error.stack);
-        taskListUl.innerHTML = '<li class="error">Error loading tasks from server.</li>';
+        taskListUl.innerHTML = '<li class="error">Error loading tasks from server: ' + error.message + '</li>';
     }
 }
 
@@ -115,21 +137,20 @@ if (addTaskForm) {
             return;
         }
 
-        // Format deadline as "YYYY-MM-DD 23:59:00" (or null if empty)
         let formattedDeadline = null;
         if (deadline) {
-            formattedDeadline = `${deadline} 23:59:00`; // Append time to match backend format
+            formattedDeadline = `${deadline} 23:59:00`; // Формат "YYYY-MM-DD HH:mm:ss"
         }
 
         const newTask = {
             title,
             description: description || null,
             deadline: formattedDeadline,
+            status: "pending", // Добавляем статус по умолчанию
             storage_type
         };
 
         try {
-            // Log the full request details
             console.log('Sending request:', {
                 url: 'http://localhost:8000/tasks/add',
                 method: 'POST',
@@ -181,7 +202,7 @@ if (findTaskButton) {
             const response = await fetch(`http://localhost:8000/tasks/${id}?storage_type=${storage_type}`);
             if (!response.ok) throw new Error('Task not found');
             const task = await response.json();
-            alert(`Title: ${task.title}\nDescription: ${task.description || 'No description'}\nStatus: ${task.status}\nDeadline: ${task.deadline || 'No deadline'}\nStorage: ${task.storage_type}`);
+            alert(`Title: ${task.title}\nDescription: ${task.description || 'No description'}\nStatus: ${task.status}\nDeadline: ${task.deadline || 'No deadline'}\nStorage: ${storage_type}`);
             findTaskIdInput.value = '';
         } catch (error) {
             console.error('Error finding task:', error.message, error.stack);
@@ -202,10 +223,9 @@ if (updateTaskForm) {
             return;
         }
 
-        // Format deadline as "YYYY-MM-DD 23:59:00" (or null if empty)
         let formattedDeadline = null;
         if (updateDeadlineInput.value) {
-            formattedDeadline = `${updateDeadlineInput.value} 23:59:00`; // Append time to match backend format
+            formattedDeadline = `${updateDeadlineInput.value} 23:59:00`; // Формат "YYYY-MM-DD HH:mm:ss"
         }
 
         const updatedTask = {
@@ -222,8 +242,10 @@ if (updateTaskForm) {
         }
 
         try {
-            console.log('Updating task:', updatedTask); // Log the request body
-            const response = await fetch(`http://localhost:8000/tasks/update/${id}`, {
+            console.log('Updating task:', updatedTask);
+            const url = `http://localhost:8000/tasks/update/${id}?storage_type=${storage_type}`;
+            console.log('Sending update request to:', url);
+            const response = await fetch(url, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(updatedTask)
@@ -273,6 +295,52 @@ if (deleteTaskButton) {
         } catch (error) {
             console.error('Error deleting task:', error.message, error.stack);
             alert('Error deleting task: ' + error.message);
+        }
+    });
+}
+
+// Handler for export task form
+if (exportTaskForm) {
+    exportTaskForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const filename = exportFilenameInput.value.trim();
+        const format = exportFormatInput.value;
+        const storage_type = exportStorageTypeInput.value || 'jsonfile'; // Значение по умолчанию из config
+
+        if (!filename || !format) {
+            alert('File name and format are required.');
+            return;
+        }
+
+        try {
+            const url = `http://localhost:8000/tasks/export?filename=${encodeURIComponent(filename)}&format=${format}&storage_type=${storage_type}`;
+            console.log('Exporting tasks from:', url);
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/octet-stream' // Ожидаем файл
+                }
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(`Failed to export tasks: ${JSON.stringify(errorData)}`);
+            }
+
+            // Получаем данные и создаем ссылку для скачивания
+            const blob = await response.blob();
+            const downloadUrl = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = downloadUrl;
+            a.download = `${filename}.${format}`; // Имя файла с расширением
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(downloadUrl);
+            alert('Tasks exported successfully!');
+        } catch (error) {
+            console.error('Error exporting tasks:', error.message, error.stack);
+            alert('Error exporting tasks: ' + error.message);
         }
     });
 }

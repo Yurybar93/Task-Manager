@@ -25,11 +25,11 @@ class TaskCreate(BaseModel):
     storage_type: Optional[str] = config.storage_type
 
 class TaskUpdate(BaseModel):
-    title: Optional[str]
-    description: Optional[str]
-    deadline: Optional[str] 
-    storage_type: Optional[str] 
-    status: Optional[str] 
+    title: Optional[str] = None
+    description: Optional[str] = None
+    deadline: Optional[str] = None
+    storage_type: Optional[str] = config.storage_type
+    status: Optional[str] = None
 
 @app.post("/tasks/add", status_code=201)
 def add_task(task: TaskCreate):
@@ -81,7 +81,11 @@ def update_task(task_id: str, task: TaskUpdate, storage_type: Optional[str] = co
     Update a task by its ID.
     """
     args = Namespace(task_id=task_id, title=task.title, description=task.description, status=task.status, storage_type=storage_type, deadline=task.deadline)
-    return handle_update_task(args)
+    result = handle_update_task(args)
+    if result is None:
+        raise HTTPException(status_code=404, detail=f"Задача с ID {task_id} не найдена.")
+    return result
+    #return handle_update_task(args)
 
 
 

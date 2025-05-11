@@ -2,6 +2,9 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 
+env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "core", "config", ".env")
+load_dotenv(env_path)
+
 class Config:
     """
     Singleton class to manage configuration settings for the application.
