@@ -13,7 +13,7 @@
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/task-manager.git
+   git clone https://github.com/Yurybar93/task-manager.git
    cd task-manager
    ```
 
@@ -37,7 +37,7 @@
 
 1. Clone the repository (if not already done):
    ```bash
-   git clone https://github.com/your-username/task-manager.git
+   git clone https://github.com/Yurybar93/task-manager.git
    cd task-manager
    ```
 
