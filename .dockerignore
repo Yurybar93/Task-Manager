@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.pyo
+*.log
+*.sqlite3
+*.db
+.env
+tasks
+tasks.json
+.git
+tests/
+README.md

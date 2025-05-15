@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from core.config import Config#
+from core.config import Config
 import os
 
 class TestConfig(unittest.TestCase):

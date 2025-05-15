@@ -1,5 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import Optional
 from argparse import Namespace
@@ -17,6 +19,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.mount("/static", StaticFiles(directory="frontend"), name="static")
 
 class TaskCreate(BaseModel):
     title: str
@@ -90,8 +94,8 @@ def update_task(task_id: str, task: TaskUpdate, storage_type: Optional[str] = co
 
 
 @app.get("/")
-def read_root():
-    return {"message": "Task Manager API is running. Visit /docs for API documentation."}
+def serve_index():
+    return FileResponse("frontend/index.html")
 
 if __name__ == "__main__":
     uvicorn.run("api:app")

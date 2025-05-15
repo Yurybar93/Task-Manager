@@ -84,6 +84,7 @@ tasks
 tasks.db
 tasks.json
 
+
 # SQLite 
 *.sqlite3
 *.db

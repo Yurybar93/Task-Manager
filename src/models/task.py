@@ -60,7 +60,7 @@ class Task:
                 f"Task: {self.title}, Description: {self.description}, Status: {status_display}, " 
                 f"Created at: {self.created_at.strftime('%Y-%m-%d %H:%M:%S')}, "
                 f"Updated at: {self.updated_at.strftime('%Y-%m-%d %H:%M:%S')}, "
-                f"Deadline: {(self.deadline.strftime('%Y-%m-%d %H:%M:%S') if self.deadline else "No deadline set")}"
+                f"Deadline: {(self.deadline.strftime('%Y-%m-%d %H:%M:%S') if self.deadline else 'No deadline set')}"
                 )
     
     def mark_as_done(self):

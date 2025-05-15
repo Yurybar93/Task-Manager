@@ -156,3 +156,15 @@
 2025-05-11 11:55:21,670 - TaskManager - INFO - ✓ Completed: List tasks
 2025-05-11 11:55:25,237 - TaskManager - INFO - → Executing: List tasks | args=(Namespace(storage_type='jsonfile', status=None, deadline=None),), kwargs={}
 2025-05-11 11:55:25,239 - TaskManager - INFO - ✓ Completed: List tasks
+2025-05-11 14:03:56,949 - TaskManager - INFO - → Executing: List tasks | args=(Namespace(storage_type='sqlite', status=None, deadline=None),), kwargs={}
+2025-05-11 14:03:56,994 - TaskManager - INFO - ✓ Completed: List tasks
+2025-05-11 14:05:05,754 - TaskManager - INFO - → Executing: List tasks | args=(Namespace(storage_type='jsonfile', status=None, deadline=None),), kwargs={}
+2025-05-11 14:05:05,757 - TaskManager - INFO - ✓ Completed: List tasks
+2025-05-13 16:48:20,885 - TaskManager - INFO - → Executing: List tasks | args=(Namespace(storage_type='jsonfile', status=None, deadline=None),), kwargs={}
+2025-05-13 16:48:20,886 - TaskManager - INFO - ✓ Completed: List tasks
+2025-05-13 16:48:27,685 - TaskManager - INFO - → Executing: List tasks | args=(Namespace(storage_type='jsonfile', status=None, deadline=None),), kwargs={}
+2025-05-13 16:48:27,685 - TaskManager - INFO - ✓ Completed: List tasks
+2025-05-13 16:48:40,556 - TaskManager - INFO - → Executing: Add task | args=(Namespace(title='ыы', description='ф', deadline=None, storage_type='memory'),), kwargs={}
+2025-05-13 16:48:40,556 - TaskManager - INFO - ✓ Completed: Add task
+2025-05-13 16:48:41,863 - TaskManager - INFO - → Executing: List tasks | args=(Namespace(storage_type='jsonfile', status=None, deadline=None),), kwargs={}
+2025-05-13 16:48:41,865 - TaskManager - INFO - ✓ Completed: List tasks
